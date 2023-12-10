@@ -115,72 +115,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setClock('.timer', deadline);
 
-  // // Modal
-
-  const modalTrigger = document.querySelectorAll('[data-modal]'),
-    modal = document.querySelector('.modal'),
-    modalCloseBtn = document.querySelector('[data-close]');
-
-  function closeModal() {
-    modal.classList.toggle('show'); //_ Вариант с toggle
-    // modal.classList.add('hide');  //_ Вариант с классами
-    // modal.classList.remove('show');
-    document.body.style.overflow = ''; //_ Для включения scroll
-  }
-
-  function openModal() {
-    modal.classList.toggle('show'); //_ Вариант с toggle
-    // modal.classList.add('show'); //_ Вариант с классами
-    // modal.classList.remove('hide');
-    document.body.style.overflow = 'hidden'; //_ Для отключения scroll
-    clearInterval(modalTimerId); //_ Отключение таймера для открытия окна, чтобы оно не появилось опять, если уже было открыто
-  }
-
-  modalTrigger.forEach((btn) => {
-    //_ Открытие модального окна
-    btn.addEventListener('click', () => {
-      openModal();
-    });
-  });
-
-  modalCloseBtn.addEventListener('click', closeModal); //_ Закрытие модального окна на крестик
-
-  modal.addEventListener('click', (e) => {
-    //_ Закрытие модального окна кликом на пустую область
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    //_ Закрытие модального окна клавишей Esc, если оно открыто
-    if (e.code === 'Escape' && modal.classList.contains('show')) {
-      closeModal();
-    }
-  });
-
-  // const modalTimerId = setTimeout(openModal, 5000); //_ Открытие модального окна через 5 секунд на сайте
-
-  function showModalByScroll() {
-    //_ Открытие модального окна после прокрутки всей страницы
-
-    if (
-      window.scrollY + document.documentElement.clientHeight >=
-      document.documentElement.scrollHeight - 1
-    ) {
-      openModal();
-      window.removeEventListener('scroll', showModalByScroll); //_ Удаление обработчика события, чтобы окно не открывалось повторно
-    }
-
-    //_ Вариант от ChatGPT
-    // if (window.scrollY + window.innerHeight >= document.body.offsetHeight - 1) {
-    //   openModal();
-    //   window.removeEventListener('scroll', showModalByScroll);
-    // }
-  }
-
-  window.addEventListener('scroll', showModalByScroll);
-
   // // Используем классы для карточек
 
   class MenuCard {
@@ -254,8 +188,151 @@ window.addEventListener('DOMContentLoaded', () => {
     'menu__item',
   ).render();
 
-  const urlObj = {
-    protocol: 'https',
-    domain: 'mysite.com',
+  // // Modal
+
+  const modalTrigger = document.querySelectorAll('[data-modal]'),
+    modal = document.querySelector('.modal');
+  // const modalCloseBtn = document.querySelector('[data-close]'); //_ Закрытие модального окна на крестик
+
+  modalTrigger.forEach((btn) => {
+    //_ Открытие модального окна
+    btn.addEventListener('click', () => {
+      openModal();
+    });
+  });
+
+  function closeModal() {
+    // modal.classList.toggle('show'); //_ Вариант с toggle
+    modal.classList.add('hide'); //_ Вариант с классами
+    modal.classList.remove('show');
+    document.body.style.overflow = ''; //_ Для включения scroll
+  }
+
+  function openModal() {
+    // modal.classList.toggle('show'); //_ Вариант с toggle
+    modal.classList.add('show'); //_ Вариант с классами
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden'; //_ Для отключения scroll
+    clearInterval(modalTimerId); //_ Отключение таймера для открытия окна, чтобы оно не появилось опять, если уже было открыто
+  }
+
+  // modalCloseBtn.addEventListener('click', closeModal); //_ Закрытие модального окна на крестик
+
+  modal.addEventListener('click', (e) => {
+    //_ Закрытие модального окна кликом на пустую область или на крестик
+    if (e.target === modal || e.target.getAttribute('data-close') == '') {
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    //_ Закрытие модального окна клавишей Esc, если оно открыто
+    if (e.code === 'Escape' && modal.classList.contains('show')) {
+      closeModal();
+    }
+  });
+
+  const modalTimerId = setTimeout(openModal, 50000); //_ Открытие модального окна через 5 секунд на сайте
+
+  function showModalByScroll() {
+    //_ Открытие модального окна после прокрутки всей страницы
+
+    if (
+      window.scrollY + document.documentElement.clientHeight >=
+      document.documentElement.scrollHeight - 1
+    ) {
+      openModal();
+      window.removeEventListener('scroll', showModalByScroll); //_ Удаление обработчика события, чтобы окно не открывалось повторно
+    }
+
+    //_ Вариант от ChatGPT
+    // if (window.scrollY + window.innerHeight >= document.body.offsetHeight - 1) {
+    //   openModal();
+    //   window.removeEventListener('scroll', showModalByScroll);
+    // }
+  }
+
+  window.addEventListener('scroll', showModalByScroll);
+
+  // // Forms
+
+  //_ Первый способ через XMLHttpRequest
+
+  const forms = document.querySelectorAll('form');
+
+  const message = {
+    loading: 'img/form/spinner.svg',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так...',
   };
+
+  forms.forEach((item) => {
+    postData(item);
+  });
+
+  function postData(form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let statusMessage = document.createElement('img');
+      statusMessage.src = message.loading;
+      statusMessage.style.cssText = `
+      display: block;
+      margin: 0 auto;
+      `;
+      // form.append(statusMessage);
+      form.insertAdjacentElement('afterend', statusMessage);
+
+      const request = new XMLHttpRequest();
+      request.open('POST', 'server.php');
+
+      request.setRequestHeader('Content-type', 'application/json; charset=utf-8'); //_ Для формата json
+      const formData = new FormData(form);
+
+      const object = {}; //_ Для формата json
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+
+      const json = JSON.stringify(object);
+
+      request.send(json);
+
+      request.addEventListener('load', () => {
+        if (request.status === 200) {
+          console.log(request.response);
+          showThanksModal(message.success);
+          statusMessage.remove();
+          form.reset();
+        } else {
+          showThanksModal(message.failure);
+        }
+      });
+    });
+  }
+
+  //_ Настройка оповещения пользователя
+
+  function showThanksModal(message) {
+    const prevModalDialog = document.querySelector('.modal__dialog');
+
+    prevModalDialog.classList.add('hide');
+    openModal();
+
+    const thanksModal = document.createElement('div');
+    thanksModal.classList.add('modal__dialog');
+    thanksModal.innerHTML = `
+    <div class="modal__content">
+      <div class="modal__close" data-close>×</div>
+      <div class="modal__title">${message}</div>
+    </div>`;
+
+    document.querySelector('.modal').append(thanksModal);
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalDialog.classList.add('show');
+      prevModalDialog.classList.remove('hide');
+      closeModal();
+    }, 4000);
+  }
 });
