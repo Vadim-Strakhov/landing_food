@@ -1,3 +1,8 @@
+//_ Auto-polyfill
+
+require('es6-promise').polyfill();
+import 'nodelist-foreach-polyfill';
+
 //_ Для ES6 Modules
 
 import tabs from './modules/tabs';

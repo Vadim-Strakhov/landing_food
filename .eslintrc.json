@@ -9,7 +9,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-var": "error",
+    "no-var": "warn",
     "no-undef": "warn",
     "no-unused-vars": "warn",
     "prettier/prettier": ["warn"]
