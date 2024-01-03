@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
   calc();
-  cards();
+  // cards(); //_ Для формирования карточек через db.json npmнеобходимо отредактировать верстку и запустить 'npm run server'
   modal('[data-modal]', '.modal', modalTimerId);
   forms('form', modalTimerId);
   timer('.timer');

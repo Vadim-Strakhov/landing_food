@@ -13,7 +13,7 @@ function openModal(modalSelector, modalTimerId) {
   modal.classList.remove('hide');
   document.body.style.overflow = 'hidden'; //_ Для отключения scroll
 
-  console.log(modalTimerId);
+  // console.log(modalTimerId);
   if (modalTimerId) {
     clearInterval(modalTimerId); //_ Отключение таймера для открытия окна, чтобы оно не появилось опять, если уже было открыто
   }

@@ -431,7 +431,7 @@ function openModal(modalSelector, modalTimerId) {
   modal.classList.remove('hide');
   document.body.style.overflow = 'hidden'; //_ Для отключения scroll
 
-  console.log(modalTimerId);
+  // console.log(modalTimerId);
   if (modalTimerId) {
     clearInterval(modalTimerId); //_ Отключение таймера для открытия окна, чтобы оно не появилось опять, если уже было открыто
   }
@@ -2232,7 +2232,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_1__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
   (0,_modules_calc__WEBPACK_IMPORTED_MODULE_2__["default"])();
-  (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  // cards(); //_ Для формирования карточек через db.json npmнеобходимо отредактировать верстку и запустить 'npm run server'
   (0,_modules_modal__WEBPACK_IMPORTED_MODULE_5__["default"])('[data-modal]', '.modal', modalTimerId);
   (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"])('form', modalTimerId);
   (0,_modules_timer__WEBPACK_IMPORTED_MODULE_7__["default"])('.timer');
