@@ -3,6 +3,7 @@ import { getResource } from '../services/services';
 function cards() {
   // // Cards
 
+  //_ Способ формирования карточек через классы
   class MenuCard {
     constructor(src, alt, title, descr, price, parentSelector, ...classes) {
       this.src = src;
@@ -46,9 +47,7 @@ function cards() {
   }
 
   //_ Формирование карточек через fetch
-
   //! Для работы сервера необходимо запустить проект на OpenServer и ввести команду 'npm run server' которая задана в package.json
-  //_ Способ формирования карточек через классы
 
   getResource('http://localhost:3000/menu').then((data) => {
     data.forEach(({ img, altimg, title, descr, price }) => {

@@ -1,9 +1,11 @@
 {
+  "homepage": "https://vadim-strakhov.github.io/landing_food",
   "name": "food",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
+    "deploy": "gh-pages -d dist",
     "server": "json-server db.json",
     "watch": "webpack --mode development --watch"
   },
@@ -24,6 +26,7 @@
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "gh-pages": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-postcss": "^9.0.1",

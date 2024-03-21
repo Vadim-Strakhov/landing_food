@@ -12,7 +12,7 @@ function timer(id) {
 
   function getTimeRemaining(endtime) {
     let days, hours, minutes, seconds;
-    const t = Date.parse(endtime) - Date.parse(new Date());
+    const t = Date.parse(endtime.replace(/-/g, '/')) - Date.parse(new Date());
 
     if (t <= 0) {
       //_ Условие для обработки прошедшей даты и показа 0, если указана конкретная дата

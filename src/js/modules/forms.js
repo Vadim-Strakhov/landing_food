@@ -66,7 +66,8 @@ function forms(formSelector, modalTimerId) {
   const message = {
     loading: 'img/form/spinner.svg',
     success: 'Спасибо! Скоро мы с вами свяжемся',
-    failure: 'Что-то пошло не так...',
+    // failure: 'Что-то пошло не так...',
+    failure: 'Спасибо! Скоро мы с вами свяжемся', //_ Для корректного оповещения без запуска json-server
   };
 
   forms.forEach((item) => {
@@ -119,15 +120,19 @@ function forms(formSelector, modalTimerId) {
 
       postData('http://localhost:3000/requests', json)
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           showThanksModal(message.success);
           statusMessage.remove();
         })
         .catch(() => {
+          console.log(
+            'На gh pages отправка формы на сервер, к сожалению, не сработает, но окно благодарности все равно появится',
+          );
           showThanksModal(message.failure);
         })
         .finally(() => {
           form.reset();
+          statusMessage.remove();
         });
     });
   }
